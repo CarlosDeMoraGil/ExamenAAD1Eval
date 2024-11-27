@@ -46,6 +46,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
 
     implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.common)
     ksp(libs.androidx.room.compiler)
 
 
