@@ -6,6 +6,9 @@ import edu.iesam.examaad1eval.features.ex1.data.ModelsDataRepository
 import edu.iesam.examaad1eval.features.ex1.data.local.ModelsXmlLocalDataSource
 import edu.iesam.examaad1eval.features.ex1.data.remote.MockEx1RemoteDataSource
 import kotlinx.coroutines.DelicateCoroutinesApi
+import edu.iesam.examaad1eval.app.db.ProviderDb
+import edu.iesam.examaad1eval.features.ex2.data.local.GameDbLocalDataSource
+
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -27,13 +30,22 @@ class MainActivity : AppCompatActivity() {
 
         dataRepository.getUsers()
 
+        executeExercise2()
+
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     private fun executeExercise2(){
-        //Ejecutar el ejercicio 2 desde aquí llamando al Ex2DataRepository directamente
+
+        val room = GameDbLocalDataSource(
+            ProviderDb().providerDb(this).provideGameDao()
+        )
+
+
         GlobalScope.launch {
-            //llamar a Room
+
+            val remoteData = GameMockRemoteDataSource().getGames()
+
+            room.saveAll(remoteData)
         }
     }
 }
