@@ -4,7 +4,7 @@ import android.content.Context
 import com.google.gson.Gson
 import edu.iesam.examaad1eval.features.ex1.domain.User
 
-class Ex1XmlLocalDataSource(private val context: Context) {
+class ModelsXmlLocalDataSource(private val context: Context) {
 
     private val sharedPref = context.getSharedPreferences(
         "db-examen", Context.MODE_PRIVATE
@@ -17,11 +17,14 @@ class Ex1XmlLocalDataSource(private val context: Context) {
     fun saveUsers(users: List<User>) {
         edit.apply {
 
-            users.map { user ->
-                putString("user", gson.toJson(user))
+            users.forEach {
+                putString("user", gson.toJson(it))
             }
+
             apply()
+
         }
+
 
     }
 
@@ -30,8 +33,10 @@ class Ex1XmlLocalDataSource(private val context: Context) {
         val users = ArrayList<User>()
 
         fileInfo.forEach { info ->
-            val user = gson.fromJson("user", User::class.java)
-            users.add(user)
+            sharedPref.getString("user", null)?.let {
+                val user = gson.fromJson(it, User::class.java)
+                users.add(user)
+            }
 
         }
 

@@ -2,8 +2,8 @@ package edu.iesam.examaad1eval
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import edu.iesam.examaad1eval.features.ex1.data.Ex1DataRepository
-import edu.iesam.examaad1eval.features.ex1.data.local.Ex1XmlLocalDataSource
+import edu.iesam.examaad1eval.features.ex1.data.ModelsDataRepository
+import edu.iesam.examaad1eval.features.ex1.data.local.ModelsXmlLocalDataSource
 import edu.iesam.examaad1eval.features.ex1.data.remote.MockEx1RemoteDataSource
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun executeExercise1(){
         val dataRepository =
-            Ex1DataRepository(Ex1XmlLocalDataSource(this), MockEx1RemoteDataSource())
+            ModelsDataRepository(ModelsXmlLocalDataSource(this), MockEx1RemoteDataSource())
 
         dataRepository.getUsers()
 

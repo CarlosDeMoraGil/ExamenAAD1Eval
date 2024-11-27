@@ -1,30 +1,34 @@
 package edu.iesam.examaad1eval.features.ex1.data
 
 import android.util.Log
-import edu.iesam.examaad1eval.features.ex1.data.local.Ex1XmlLocalDataSource
+import edu.iesam.examaad1eval.features.ex1.data.local.ModelsXmlLocalDataSource
 import edu.iesam.examaad1eval.features.ex1.data.remote.MockEx1RemoteDataSource
-import edu.iesam.examaad1eval.features.ex1.domain.Ex1Repository
 import edu.iesam.examaad1eval.features.ex1.domain.Item
+import edu.iesam.examaad1eval.features.ex1.domain.ModelsRepository
 import edu.iesam.examaad1eval.features.ex1.domain.Services
 import edu.iesam.examaad1eval.features.ex1.domain.User
 
-class Ex1DataRepository(
-    private val local: Ex1XmlLocalDataSource,
+class ModelsDataRepository(
+    private val local: ModelsXmlLocalDataSource,
     private val remote: MockEx1RemoteDataSource
-) : Ex1Repository {
+) : ModelsRepository {
 
     override fun getUsers(): List<User> {
         val localData = local.findUsers()
 
+        val remote = remote.getUsers()
+
+        local.saveUsers(remote)
+
         if (localData.isEmpty()) {
-            val remote = remote.getUsers()
 
             local.saveUsers(remote)
 
-            Log.d("@dev", remote.toString())
+            Log.d("@dev", localData.toString())
             return remote
 
         } else {
+
             Log.d("@dev", localData.toString())
             return localData
         }
